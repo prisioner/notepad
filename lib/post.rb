@@ -34,6 +34,8 @@ class Post
   def file_path
     save_path = __dir__ + "/../posts"
 
+    Dir.mkdir(save_path) unless Dir.exists?(save_path)
+
     file_name = @created_at.strftime("#{self.class.name}_%Y-%m-%d_%H-%M-%S.txt")
 
     File.join(save_path, file_name)

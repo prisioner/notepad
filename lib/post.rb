@@ -1,4 +1,15 @@
 class Post
+  @@post_types = {}
+
+  def self.post_types
+    @@post_types
+  end
+
+  def self.create(type)
+    puts type
+    @@post_types[type].new
+  end
+
   def initialize
     @created_at = Time.now
     @text = nil
@@ -15,18 +26,16 @@ class Post
   def save
     file = File.new(file_path, "w:UTF-8")
 
-    for item in to_strings do
-      file.puts(item)
-    end
+    file.puts to_strings.join("\n")
 
     file.close
   end
 
   def file_path
-    current_path = __dir__
+    save_path = __dir__ + "/../posts"
 
     file_name = @created_at.strftime("#{self.class.name}_%Y-%m-%d_%H-%M-%S.txt")
 
-    File.join(current_path, file_name)
+    File.join(save_path, file_name)
   end
 end

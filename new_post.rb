@@ -14,6 +14,8 @@ require_relative 'lib/memo'
 require_relative 'lib/link'
 require_relative 'lib/task'
 
+Post.check_db!
+
 puts "Привет, я твой блокнот!"
 puts "Что хотите записать в блокнот?"
 

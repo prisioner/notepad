@@ -14,6 +14,8 @@ require_relative 'lib/memo'
 require_relative 'lib/link'
 require_relative 'lib/task'
 
+Post.check_db!
+
 # id, limit, type
 
 require 'optparse'
@@ -42,13 +44,14 @@ OptionParser.new do |opt|
          '(по умолчанию все)') { |o| options[:limit] = o }
 end.parse!
 
-result = Post.find(options[:limit], options[:type], options[:id])
+if options[:id]
+  result = Post.find_by_id(options[:id])
 
-if result.is_a?(Post)
   puts "Запись #{result.class.name}, id = #{options[:id]}"
-
   puts result.to_strings
-else # если результат - не один пост - покажем таблицу результатов
+else
+  result = Post.find_all(options[:type], options[:limit])
+
   print '| id                 '
   print '| @type              '
   print '| @created_at        '
